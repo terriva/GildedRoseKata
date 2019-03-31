@@ -10,7 +10,7 @@ namespace GildedRoseSolution.Strategy
     {
         public void UpdateItemQuality(Item item)
         {
-            throw new NotImplementedException();
+            //Legendary item, do not expire
         }
     }
 }

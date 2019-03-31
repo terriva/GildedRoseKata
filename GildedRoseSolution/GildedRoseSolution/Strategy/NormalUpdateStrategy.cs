@@ -19,7 +19,8 @@ namespace GildedRoseSolution.Strategy
                 item.SellIn = item.SellIn - 1;
                 item.Quality = item.Quality - 2;
             }
-            if(item.SellIn <= 0)
+
+            if(item.Quality <= 0)
             {
                 item.Quality = 0;
             }
