@@ -195,5 +195,50 @@ namespace GildedRoseSolution
             Assert.AreEqual(50, itemList[1].Quality);
             Assert.AreEqual(50, itemList[2].Quality);
         }
+
+
+        //Aged Brie
+        [Test]
+        public void AgedBrieItemIncreasesQualityByOneIfSellInIsPositive()
+        {
+            List<Item> itemList = new List<Item>()
+            {
+                new Item() { Name = "Aged Brie", Quality = 10, SellIn = 1 }
+            };
+
+            var app = new GildedRose(itemList);
+            app.UpdateQuality();
+            Assert.AreEqual(11, itemList[0].Quality);
+        }
+
+        [Test]
+        public void AgedBrieItemIncreasesQualityByTwoIfSellInIsZeroOrNegative()
+        {
+            List<Item> itemList = new List<Item>()
+            {
+                new Item() { Name = "Aged Brie", Quality = 10, SellIn = 0 }
+            };
+
+            var app = new GildedRose(itemList);
+            app.UpdateQuality();
+            Assert.AreEqual(12, itemList[0].Quality);
+        }
+
+        [Test]
+        public void AgedBrieItemCannotIncreaseQualityOverFifty()
+        {
+            List<Item> itemList = new List<Item>()
+            {
+                new Item() { Name = "Aged Brie", Quality = 49, SellIn = 10 },
+                new Item() { Name = "Aged Brie", Quality = 49, SellIn = 0 },
+                new Item() { Name = "Aged Brie", Quality = 49, SellIn = -2 },
+            };
+
+            var app = new GildedRose(itemList);
+            app.UpdateQuality();
+            Assert.AreEqual(50, itemList[0].Quality);
+            Assert.AreEqual(50, itemList[1].Quality);
+            Assert.AreEqual(50, itemList[2].Quality);
+        }
     }
 }
