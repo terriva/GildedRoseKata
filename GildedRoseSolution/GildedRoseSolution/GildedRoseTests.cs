@@ -7,6 +7,7 @@ namespace GildedRoseSolution
     [TestFixture]
     public class GildedRoseTests
     {
+        //Normal item
         [Test]
         public void DownSellinValueByOneAtEndOfDay()
         {
@@ -69,7 +70,7 @@ namespace GildedRoseSolution
             Assert.AreEqual(0, itemList[0].Quality);
             Assert.AreEqual(0, itemList[1].Quality);
         }
-
+        //sulfuras item
         [Test]
         public void SulfurasDoesNotDecreaseItsQualityNorSellInDays()
         {
@@ -83,7 +84,7 @@ namespace GildedRoseSolution
             Assert.AreEqual(10, itemList[0].Quality);
             Assert.AreEqual(20, itemList[0].SellIn);
         }
-
+        //Conjured item
         [Test]
         public void ConjuredDecreaseQualityByTwoWhenSellInIsPositive()
         {
@@ -124,6 +125,75 @@ namespace GildedRoseSolution
             }
             app.UpdateQuality();
             Assert.AreEqual(0, itemList[0].Quality);
+        }
+        //backstage item
+        [Test]
+        public void BackstageItemIncreasesQualityByOneIfSellInBiggerThanTen()
+        {
+            List<Item> itemList = new List<Item>()
+            {
+                new Item() { Name = "Backstage passes", Quality = 10, SellIn = 20 }
+            };
+
+            var app = new GildedRose(itemList);
+            app.UpdateQuality();
+            Assert.AreEqual(11, itemList[0].Quality);
+        }
+
+        [Test]
+        public void BackstageItemIncreasesQualityByTwoIfSellInEqualOrLowerThanTen()
+        {
+            List<Item> itemList = new List<Item>()
+            {
+                new Item() { Name = "Backstage passes", Quality = 10, SellIn = 10 }
+            };
+
+            var app = new GildedRose(itemList);
+            app.UpdateQuality();
+            Assert.AreEqual(12, itemList[0].Quality);
+        }
+
+        [Test]
+        public void BackstageItemIncreasesQualityByThreIfSellInEqualOrLowerThanFive()
+        {
+            List<Item> itemList = new List<Item>()
+            {
+                new Item() { Name = "Backstage passes", Quality = 10, SellIn = 5 }
+            };
+
+            var app = new GildedRose(itemList);
+            app.UpdateQuality();
+            Assert.AreEqual(13, itemList[0].Quality);
+        }
+
+        [Test]
+        public void BackstageItemQualityIsZeroIfSellInIsNegative()
+        {
+            List<Item> itemList = new List<Item>()
+            {
+                new Item() { Name = "Backstage passes", Quality = 10, SellIn = 0 }
+            };
+
+            var app = new GildedRose(itemList);
+            app.UpdateQuality();
+            Assert.AreEqual(0, itemList[0].Quality);
+        }
+
+        [Test]
+        public void BackstageItemQualityCanNotBeGreaterThanFifty()
+        {
+            List<Item> itemList = new List<Item>()
+            {
+                new Item() { Name = "Backstage passes", Quality = 49, SellIn = 11 },
+                new Item() { Name = "Backstage passes", Quality = 49, SellIn = 10 },
+                new Item() { Name = "Backstage passes", Quality = 49, SellIn = 5 },
+            };
+
+            var app = new GildedRose(itemList);
+            app.UpdateQuality();
+            Assert.AreEqual(50, itemList[0].Quality);
+            Assert.AreEqual(50, itemList[1].Quality);
+            Assert.AreEqual(50, itemList[2].Quality);
         }
     }
 }
