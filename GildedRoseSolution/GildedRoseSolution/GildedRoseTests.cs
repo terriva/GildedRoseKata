@@ -83,5 +83,47 @@ namespace GildedRoseSolution
             Assert.AreEqual(10, itemList[0].Quality);
             Assert.AreEqual(20, itemList[0].SellIn);
         }
+
+        [Test]
+        public void ConjuredDecreaseQualityByTwoWhenSellInIsPositive()
+        {
+            List<Item> itemList = new List<Item>()
+            {
+                new Item() { Name = "Conjured", Quality = 10, SellIn = 20 }
+            };
+
+            var app = new GildedRose(itemList);
+            app.UpdateQuality();
+            Assert.AreEqual(8, itemList[0].Quality);
+        }
+
+        [Test]
+        public void ConjuredDecreaseQualityByFourWhenSellInIsNegative()
+        {
+            List<Item> itemList = new List<Item>()
+            {
+                new Item() { Name = "Conjured", Quality = 4, SellIn = 0 }
+            };
+
+            var app = new GildedRose(itemList);
+            app.UpdateQuality();
+            Assert.AreEqual(0, itemList[0].Quality);
+        }
+
+        [Test]
+        public void ConjuredQualityShouldNeverBeLowerThanZero()
+        {
+            List<Item> itemList = new List<Item>()
+            {
+                new Item() { Name = "Conjured", Quality = 4, SellIn = 5 },
+            };
+            var app = new GildedRose(itemList);
+            for(int i = 0; i <10; i++)
+            {
+                app.UpdateQuality();
+            }
+            app.UpdateQuality();
+            Assert.AreEqual(0, itemList[0].Quality);
+        }
     }
 }

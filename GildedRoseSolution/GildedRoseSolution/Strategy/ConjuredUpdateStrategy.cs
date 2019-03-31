@@ -10,18 +10,18 @@ namespace GildedRoseSolution.Strategy
     {
         public void UpdateItemQuality(Item item)
         {
-            if (item.Quality > 0)
+            if(item.SellIn > 0)
             {
                 item.Quality = item.Quality - 2;
+            }else
+            {
+                item.Quality = item.Quality - 4;
+            }
+            if(item.Quality < 0)
+            {
+                item.Quality = 0;
             }
             item.SellIn = item.SellIn - 1;
-            if (item.SellIn < 0)
-            {
-                if (item.Quality > 0)
-                {
-                    item.Quality = item.Quality - 2;
-                }
-            }
         }
     }
 }
